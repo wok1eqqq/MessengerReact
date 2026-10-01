@@ -1,0 +1,14 @@
+spring
+mysql
+jwt token
+spring security
+spring jpa
+lombock
+OAuth 2.0
+type script
+react
+Material UI
+web socket
+mapstruct.org 
+sock.js
+nginx 
