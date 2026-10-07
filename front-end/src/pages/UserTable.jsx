@@ -4,10 +4,12 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Typography from "@mui/material/Typography";
 import { NavLink, useNavigate } from "react-router";
-import { DataGrid} from '@mui/x-data-grid';
+import { DataGrid } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';
 
 // import jwt from 'jsonwebtoken'
+
+
 
 const UserTable = () => {
     const [userName, setUserName] = useState();
@@ -29,6 +31,24 @@ const UserTable = () => {
     ];
 
     const paginationModel = { page: 0, pageSize: 5 };
+
+    fetch("http://localhost:8080/test/auth", {
+        method: "GET",
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        //body: JSON.stringify(data)
+    })
+        .then(response => {
+            if (response.status == 200) {
+                console.log("ok");
+            }
+            else if (response.status == 403) {
+                console.log("access denied");
+            }
+        });
+
 
     return (
         <Box sx={{

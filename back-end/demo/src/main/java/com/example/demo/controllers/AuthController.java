@@ -11,7 +11,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.LoginRequest;
@@ -29,7 +28,7 @@ public class AuthController {
     private UserRepository userRepository;
 
     @PostMapping("/register")
-    public ResponseEntity register(@RequestBody RegisterRequest request) {
+    public ResponseEntity<String> register(@RequestBody RegisterRequest request) {
         Optional<UserModel> user = userRepository.findByUserNameOrEmail(request.getUserName(), request.getEmail());
         if (!user.isEmpty() ){
             System.out.println("user already registered");
@@ -50,10 +49,4 @@ public class AuthController {
         
         return ResponseEntity.ok(request);
     }
-
-    // @GetMapping("/login")
-    // public String getLogin() {
-    // System.out.println("hello");
-    // return "hello";
-    // }
 }
