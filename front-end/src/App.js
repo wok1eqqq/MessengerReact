@@ -1,6 +1,7 @@
 import RegistrationPage from "./pages/RegistrationPage.jsx"
 import LoginPage from "./pages/LoginPage.jsx";
 import UserTable from "./pages/UserTable.jsx";
+import NotAuth from "./pages/NotAuth.jsx";
 import { NavLink } from "react-router";
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -21,6 +22,7 @@ const theme = createTheme({
         <Route path="/" element={<RegistrationPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/table" element={<UserTable />} />
+        <Route path="/notAuth" element={<NotAuth />} />
       </Routes>
 </ThemeProvider>
     </>

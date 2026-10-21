@@ -3,13 +3,17 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Typography from "@mui/material/Typography";
-import { NavLink, useNavigate } from "react-router";
+import { Navigate, NavLink, useNavigate } from "react-router";
 import { DataGrid} from '@mui/x-data-grid';
+import {useEffect } from 'react';
+
+
 import Paper from '@mui/material/Paper';
 
 // import jwt from 'jsonwebtoken'
 
 const UserTable = () => {
+    const navigate = useNavigate();
     const [userName, setUserName] = useState();
     const [password, setPassword] = useState();
     const [email, setEmail] = useState();
@@ -29,6 +33,33 @@ const UserTable = () => {
     ];
 
     const paginationModel = { page: 0, pageSize: 5 };
+
+
+    useEffect(() => {
+
+    const token = localStorage.getItem("jwt");
+
+    if (!token) {
+        navigate("/notAuth");
+        return;
+    }
+
+    fetch("http://localhost:8080/test/auth", {
+        method: "GET",
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
+        .then(response => {
+            if (response.status === 200) {
+                console.log("ok");
+            } else {
+                navigate("/notAuth");
+            }
+        });
+
+}, []);
+
 
     return (
         <Box sx={{

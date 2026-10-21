@@ -9,12 +9,15 @@ const LoginPage = () => {
     const navigate = useNavigate();
     const [userName, setUserName] = useState();
     const [password, setPassword] = useState();
-
-    let [loginError, setLoginError] = useState(false)
+    const [isLoading, setIsLoading] = useState(false);
+    const [loginError, setLoginError] = useState(false)
 
 
     function onEdit(event) {
         if (event.key == "Enter") {
+            setIsLoading(true);
+            setLoginError(false)
+
             let data = {
                 password: password,
                 username: userName,
@@ -27,15 +30,12 @@ const LoginPage = () => {
                 },
                 body: JSON.stringify(data)
             })
-                .then(response => {
-                    if (response.status == 200) {
-                        navigate("/table")
-                    } else {
-                        console.log(response)
-                        setLoginError(true)
-                    }
-                    return response.text();
-                })
+                .then(r => r.text())
+                .then(token => {
+                    localStorage.setItem("jwt", token);
+                     navigate("/table");
+                });
+
 
 
 
@@ -62,30 +62,47 @@ const LoginPage = () => {
                 backgroundColor: 'rgba(255, 255, 255, 0)',
                 boxShadow: 3,
             }}>
-                <Typography variant="h1" sx={{ fontSize: "32px", textAlign: "center" }}>Login</Typography>
-                <TextField error={loginError} sx={{
-                    "& .MuiOutlinedInput-root": {
-                        transition: "all 1s ease",
+                <Typography variant="h1" sx={{ fontSize: "32px", textAlign: "center", fontWeight: 600 }}>Login</Typography>
+                <TextField
+                    disabled={isLoading}
+                    error={loginError}
+                    sx={{
+                        "& .MuiOutlinedInput-root": {
+                            transition: "all 1s ease",
 
-                        "& fieldset": {
-                            transition: "border-color 1s ease",
+                            "& fieldset": {
+                                transition: "border-color 1s ease",
+                            },
+
+                            "&.Mui-error fieldset": {
+                                borderColor: "error.main",
+                            },
                         },
 
-                        "&.Mui-error fieldset": {
-                            borderColor: "error.main",
+                        "& .MuiInputLabel-root": {
+                            transition: "color 0.3s ease",
                         },
-                    },
-
-                    "& .MuiInputLabel-root": {
-                        transition: "color 0.3s ease",
-                    },
-                }} label="Email" variant="outlined" onKeyDown={onEdit} onChange={
-                    (e) => {
-                        setUserName(e.target.value);
-                        setLoginError(false)
+                    }}
+                    label="Email"
+                    variant="outlined"
+                    onKeyDown={onEdit}
+                    onChange={
+                        (e) => {
+                            setUserName(e.target.value);
+                            setLoginError(false)
+                        }
                     }
-                } />
-                <TextField error={loginError} label="Password" variant="outlined" onKeyDown={onEdit} onChange={(e) => setPassword(e.target.value)} />
+                />
+                <TextField
+                    disabled={isLoading}
+                    error={loginError}
+                    label="Password"
+                    variant="outlined"
+                    onKeyDown={onEdit}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+                <Typography variant="h1" sx={{ fontSize: "13px", textAlign: "center" }}>Do not have an account?</Typography>
+                <NavLink to="/" style={{ color: "black", textDecoration: "none", fontSize: "13px", fontWeight: "600" }}>Create Account</NavLink>
             </Box>
         </Box>
     )
