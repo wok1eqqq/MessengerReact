@@ -25,7 +25,7 @@ const LoginPage = () => {
 
             fetch("http://localhost:8080/auth/login", {
                 method: "POST",
-                //credentials: "include",
+                credentials: "include",
                 headers: {
                     "Content-Type": "application/json"
                 },

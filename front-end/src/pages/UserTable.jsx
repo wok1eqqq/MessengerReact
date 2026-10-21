@@ -43,9 +43,13 @@ const UserTable = () => {
         .then(response => {
             if (response.status == 200) {
                 console.log("ok");
+                console.log(response.body)
             }
             else if (response.status == 403) {
                 console.log("access denied");
+            }
+            else {
+                console.log(response)
             }
         });
 
